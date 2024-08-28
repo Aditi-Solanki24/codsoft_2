@@ -1,51 +1,64 @@
 import tkinter as tk
-# create the tkinter window
-window = tk.Tk()
-window.title("Calculator")
-window.geometry("400x400")
-entry = tk.Entry(window)
-entry1 = tk.Entry(window)
-la1 = tk.Label(window,text="Enter 1st value:")
-la2 = tk.Label(window,text="Enter 2nd value:")
-la3 = tk.Label(window,text="Result:")
-la4 = tk.Label(window)
-def read():
-    a = int(entry.get())
-    b = int(entry1.get())
-    c = a+b
-    la4.configure(text=str(c))
-button = tk.Button(window, text="Add", command=read)
-def substract():
-    a = int(entry.get())
-    b = int(entry1.get())
-    c= a-b
-    la4.configure(text=str(c))
-button1 = tk.Button(window, text="sub",command=substract) 
+from tkinter import messagebox
 
-def divide():
-    a = int(entry.get())
-    b = int(entry1.get())
-    c= a/b
-    la4.configure(text=str(c))
-button2 = tk.Button(window, text="div",command=divide)
+# Function to perform arithmetic operations
+def calculate():
+    try:
+        num1 = float(entry_num1.get())
+        num2 = float(entry_num2.get())
+        operator = operator_var.get()
+        
+        if operator == "+":
+            result = num1 + num2
+        elif operator == "-":
+            result = num1 - num2
+        elif operator == "*":
+            result = num1 * num2
+        elif operator == "/":
+            result = num1 / num2
+        else:
+            result = "Invalid Operator"
+        
+        label_result.config(text=f"Result: {result}")
+    except ValueError:
+        messagebox.showerror("Input Error", "Please enter valid numbers")
 
-def multiply():
-    a = int(entry.get())
-    b = int(entry1.get())
-    c= a*b
-    la4.configure(text=str(c))
-button3 = tk.Button(window, text="mul",command=multiply)  
-    
+# Create the main window
+root = tk.Tk()
+root.title("Arithmetic Calculator")
 
-la1.grid(column=0,row=0)
-entry.grid(column=1,row=0)
-la2.grid(column=0,row=1)
-entry1.grid(column=1,row=1)
-la3.grid(column=0,row=2)
-la4.grid(column=1,row=2)
-button.grid(column=0,row=3)
-button1.grid(column=1,row=3)
-button2.grid(column=2,row=3)
-button3.grid(column=3,row=3)
+# Create and place the first number label and entry
+label_num1 = tk.Label(root, text="Number 1:")
+label_num1.grid(row=0, column=0, padx=10, pady=10)
 
-window.mainloop()
+entry_num1 = tk.Entry(root)
+entry_num1.grid(row=0, column=1, padx=10, pady=10)
+
+# Create and place the operator label and dropdown menu
+label_operator = tk.Label(root, text="Operator:")
+label_operator.grid(row=1, column=0, padx=10, pady=10)
+
+operator_var = tk.StringVar(root)
+operator_var.set("+")  # Default value
+
+operator_menu = tk.OptionMenu(root, operator_var, "+", "-", "*", "/")
+operator_menu.grid(row=1, column=1, padx=10, pady=10)
+
+# Create and place the second number label and entry
+label_num2 = tk.Label(root, text="Number 2:")
+label_num2.grid(row=2, column=0, padx=10, pady=10)
+
+entry_num2 = tk.Entry(root)
+entry_num2.grid(row=2, column=1, padx=10, pady=10)
+
+# Create and place the calculate button
+calculate_button = tk.Button(root, text="Calculate", command=calculate)
+calculate_button.grid(row=3, column=0, columnspan=2, pady=10)
+
+# Create and place the result label
+label_result = tk.Label(root, text="Result: ")
+label_result.grid(row=4, column=0, columnspan=2, pady=10)
+
+# Run the main event loop
+root.mainloop()
+
